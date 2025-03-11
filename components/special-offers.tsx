@@ -5,12 +5,16 @@ import { motion } from "framer-motion";
 import Container from "./container";
 import { Button } from "./ui/button";
 
+
+import golden from '@/public/landing/golden.jpeg'
+import Image from "next/image";
+
 const offers = [
   {
     id: 1,
     title: "🐶 20% Off Golden Retrievers!",
     description: "Get a loving Golden Retriever at an exclusive discount.",
-    image: "/images/golden-retriever.png",
+    image: golden,
     price: "$1200",
     discountPrice: "$960",
   },
@@ -18,7 +22,7 @@ const offers = [
     id: 2,
     title: "🐕 Buy 1 Husky, Get Free Accessories!",
     description: "Purchase a Husky & get a free leash, collar, and dog bed!",
-    image: "/images/husky.png",
+    image: golden,
     price: "$1500",
     discountPrice: "$1500 + Free Goodies",
   },
@@ -26,7 +30,7 @@ const offers = [
     id: 3,
     title: "🐾 Premium French Bulldogs - 15% Off!",
     description: "Limited-time sale on the cutest French Bulldogs!",
-    image: "/images/french-bulldog.png",
+    image: golden,
     price: "$2500",
     discountPrice: "$2125",
   },
@@ -53,22 +57,23 @@ const SpecialOffers = () => {
             {offers.map((offer) => (
               <motion.div
                 key={offer.id}
-                className="flex w-80 flex-col items-center rounded-2xl bg-white p-6 text-center shadow-lg"
+                className="flex w-full flex-col items-center rounded-2xl bg-white p-6 text-center shadow-lg"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <motion.img
-                  src={offer.image}
-                  alt={offer.title}
-                  className="h-32 w-32 rounded-full object-cover"
+               <motion.div
                   animate={{ y: [0, -10, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 2,
-                    ease: "easeInOut",
-                  }}
-                />
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  <Image
+                    src={offer.image.src} // Use `.src` to get the image path
+                    alt={offer.title}
+                    width={128}
+                    height={128}
+                    className="rounded-full object-cover"
+                  />
+                </motion.div>
                 <h3 className="mt-4 text-2xl font-bold text-yellow-900">
                   {offer.title}
                 </h3>
@@ -80,7 +85,7 @@ const SpecialOffers = () => {
                   {offer.discountPrice}
                 </p>
                 <button className="mt-4 rounded-full bg-yellow-500 px-4 py-2 font-bold text-white hover:bg-yellow-600">
-                  Buy Now 🐕
+                  Buy Now
                 </button>
               </motion.div>
             ))}

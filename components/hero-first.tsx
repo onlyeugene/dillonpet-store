@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 
 // Import images
 import pup1 from "@/public/landing/pup.png";
-import pup2 from "@/public/landing/pup.png";
+import pup2 from "@/public/landing/slide.png";
 import pup3 from "@/public/landing/pup3.png";
 
 // import gif from "@/public/landing/gif.gif";

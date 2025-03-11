@@ -10,10 +10,10 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button";
 
-import waylon from '@/public/profiles/waylon.jpg'
-import reed from '@/public/profiles/reed.jpg'
-import dorathy from '@/public/profiles/dorathy.jpg'
-import caro from '@/public/profiles/caro.jpg'
+import waylon from "@/public/profiles/waylon.jpg";
+import reed from "@/public/profiles/reed.jpg";
+import dorathy from "@/public/profiles/dorathy.jpg";
+import caro from "@/public/profiles/caro.jpg";
 import Container from "./container";
 
 const testimonials = [
@@ -47,7 +47,7 @@ const testimonials = [
 const TestimonialCarousel = () => {
   return (
     <div className="py-12">
-      <Container> 
+      <Container>
         <h2 className="mb-8 text-center text-5xl font-bold">
           What Our Customers Say
         </h2>
@@ -71,7 +71,7 @@ const TestimonialCarousel = () => {
           >
             {testimonials.map((testimonial) => (
               <SwiperSlide key={testimonial.id}>
-                <div className="relative flex h-80 flex-col border border-gray-100  items-center justify-center rounded-lg bg-white p-6 text-center shadow-lg">
+                <div className="relative flex h-80 flex-col items-center justify-center rounded-lg border border-gray-100 bg-white p-6 text-center shadow-lg">
                   <Image
                     src={testimonial.image}
                     alt={testimonial.name}
@@ -92,14 +92,14 @@ const TestimonialCarousel = () => {
           </Swiper>
 
           {/* Custom Navigation Buttons */}
-          <Button className="swiper-button-prev-custom absolute top-1/2 -left-4 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#FFC107] text-white shadow-lg transition-all hover:bg-gray-800">
+          <Button className="swiper-button-prev-custom absolute top-1/2 -left-4 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#FFC107] text-white shadow-lg transition-all hover:-left-6 hover:h-14 hover:w-14 hover:bg-gray-800">
             ❮
           </Button>
-          <Button className="swiper-button-next-custom absolute top-1/2 -right-4 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#FFC107] text-white shadow-lg transition-all hover:bg-gray-800">
+          <Button className="swiper-button-next-custom absolute top-1/2 -right-4 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#FFC107] text-white shadow-lg transition-all hover:-right-6 hover:h-14 hover:w-14 hover:bg-gray-800">
             ❯
           </Button>
         </div>
-        </Container>
+      </Container>
     </div>
   );
 };
