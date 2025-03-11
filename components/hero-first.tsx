@@ -102,7 +102,7 @@ const Hero = () => {
           </div>
             {/* <Image src={gif} alt="dog playing"  className="absolute w-20 h-20 rounded-full top-50 right-160"/> */}
 
-            <h1 className="text-[54px] absolute rounded-full top-60 animate-bounce delay-150 duration-[4000ms] transition-all right-120">🐾 </h1>
+            <h1 className="text-[54px] absolute rounded-full top-60 animate-bounce delay-150 duration-[4000ms] transition-all right-0">🐾 </h1>
 
           {/* Text Content */}
           <div
