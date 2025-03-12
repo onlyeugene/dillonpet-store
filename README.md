@@ -63,47 +63,50 @@ pnpm dev
 # or
 bun dev
 ```
-
-og_website/
-├── app/
-│ ├── globals.css # Global styles
-│ ├── layout.tsx # Root layout component
-│ └── page.tsx # Home page component
+dog_website/
+├── app/                    # Main application directory
+│   ├── globals.css         # Global styles
+│   ├── layout.tsx          # Root layout component
+│   └── page.tsx            # Home page component
 │
-├── components/
-│ ├── navigation/ # Navigation components
-│ │ ├── navigation-link.tsx
-│ │ ├── transition-link.tsx
-│ │ └── user-menu.tsx
-│ │
-│ ├── ui/ # Reusable UI components
-│ │ ├── button.tsx
-│ │ └── input.tsx
-│ │
-│ ├── animation.ts # Animation configurations
-│ ├── container.tsx # Container layout component
-│ ├── footer.tsx # Footer component
-│ ├── hero-details.tsx # Hero section details
-│ ├── hero-first.tsx # Primary hero section
-│ ├── hero-products.tsx # Products showcase section
-│ ├── hero-services.tsx # Services showcase section
-│ ├── services.tsx # Services component
-│ ├── special-offers.tsx # Special offers section
-│ └── testimonials.tsx # Testimonials carousel
+├── components/             # Reusable components
+│   ├── navigation/         # Navigation components
+│   │   ├── navigation-link.tsx
+│   │   ├── transition-link.tsx
+│   │   └── user-menu.tsx
+│   │
+│   ├── ui/                 # UI components
+│   │   ├── button.tsx
+│   │   └── input.tsx
+│   │
+│   ├── hero/               # Hero sections
+│   │   ├── hero-details.tsx
+│   │   ├── hero-first.tsx
+│   │   ├── hero-products.tsx
+│   │   └── hero-services.tsx
+│   │
+│   ├── sections/           # Other page sections
+│   │   ├── services.tsx
+│   │   ├── special-offers.tsx
+│   │   └── testimonials.tsx
+│   │
+│   ├── animation.ts        # Animation configurations
+│   ├── container.tsx       # Container layout component
+│   ├── footer.tsx          # Footer component
 │
-├── lib/
-│ └── db.ts # Database utilities and mock data
+├── lib/                    # Utility functions and data
+│   └── db.ts               # Database utilities and mock data
 │
-├── public/
-│ ├── fonts/ # Custom font files
-│ ├── landing/ # Landing page assets
-│ └── profiles/ # Profile images
+├── public/                 # Static assets
+│   ├── fonts/              # Custom font files
+│   ├── landing/            # Landing page assets
+│   └── profiles/           # Profile images
 │
-├── .env.local # Environment variables
-├── package.json # Project dependencies and scripts
-├── README.md # Project documentation
-├── tailwind.config.js # Tailwind CSS configuration
-└── tsconfig.json # TypeScript configuration
+├── .env.local              # Environment variables
+├── package.json            # Project dependencies and scripts
+├── README.md               # Project documentation
+├── tailwind.config.js      # Tailwind CSS configuration
+└── tsconfig.json           # TypeScript configuration
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
