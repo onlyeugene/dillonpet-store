@@ -2,7 +2,8 @@
 import HeroDetails from "@/components/hero-details";
 import Hero from "@/components/hero-first";
 import HeroProducts from "@/components/hero-products";
-import Services from "@/components/services";
+import HeroServices from "@/components/hero-services";
+// import Services from "@/components/services";
 import SpecialOffers from "@/components/special-offers";
 import TestimonialCarousel from "@/components/testimonials";
 
@@ -16,7 +17,7 @@ const HomePage = () => {
         </div>
       </div>
       <HeroProducts />
-      <Services />
+      <HeroServices />
       <TestimonialCarousel />
       {/* <CountdownTimer endDate='' /> */}
       <SpecialOffers />
