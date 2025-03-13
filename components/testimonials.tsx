@@ -46,7 +46,7 @@ const testimonials = [
 
 const TestimonialCarousel = () => {
   return (
-    <div className="py-12">
+    <div className="py-12" data-aos='fade-up'>
       <Container>
         <h2 className="mb-8 text-center text-5xl font-bold">
           What Our Customers Say

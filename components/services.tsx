@@ -25,7 +25,7 @@ const Services = () => {
           {servicesShow.map((service, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+              className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform  hover:scale-107"
             >
               <Image
                 src={groom}
@@ -34,10 +34,10 @@ const Services = () => {
                 height={300}
                 className="w-full h-48 object-cover"
               />
-              <div className="p-6">
+              <div className="p-6 text-gray-600 hover:bg-yellow-500 hover:text-white">
                 <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="text-gray-600 mb-4">{service.description}</p>
-                < Button className="bg-[#FFC107] text-white px-4 py-2 rounded-full hover:bg-amber-600 transition-colors">
+                <p className="mb-4">{service.description}</p>
+                < Button className="bg-black text-white px-4 py-2 rounded-full cursor-pointer hover:bg-gray-700 transition-colors">
                   {service.button}
                 </Button>
               </div>

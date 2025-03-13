@@ -5,6 +5,9 @@ import { Products } from "@/lib/db";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Heart, ShoppingBag } from "lucide-react";
+import CartSidebar from "./cart-sidebar";
+import { ProductType } from "@/types/product-types";
+
 
 const HeroProducts = () => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null); // Track hovered product ID
@@ -14,6 +17,16 @@ const HeroProducts = () => {
 
   // useEffect(() => {
   // },[])
+
+  const [cartOpen, setCartOpen] = useState(false);
+ 
+  const [cartItems, setCartItems] = useState<ProductType[]>([]);
+  
+  const handleAddToCart = (product: ProductType) => {
+    setCartItems((prev) => [...prev, product]);
+    setCartOpen(true);
+  };
+  
 
   const sortedProducts = Products.slice(0, 9);
 
@@ -26,8 +39,9 @@ const HeroProducts = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 py-10 text-center md:grid-cols-3"
-        data-aos='fade-right'
+      <div
+        className="grid grid-cols-1 gap-5 py-10 text-center md:grid-cols-3"
+        data-aos="fade-right"
       >
         {sortedProducts.map((item) => (
           <div
@@ -40,8 +54,8 @@ const HeroProducts = () => {
               <Image
                 src={item.image}
                 alt={item.name}
-                // width={400}
-                // height={400}
+                width={300}
+                height={300}
                 priority
                 className="h-auto w-full rounded-lg border"
               />
@@ -60,17 +74,20 @@ const HeroProducts = () => {
                 {/* Cart Button with Tooltip */}
                 <div className="group relative">
                   {/* Tooltip Text */}
-                  <div className="absolute -top-12 -left-6 w-24 rounded-md bg-black  py-2 text-xs text-white opacity-0 transition-all duration-200 group-hover:opacity-100 before:absolute before:top-full before:left-10 before:border-8 before:border-x-transparent before:border-t-black before:border-b-transparent">
+                  <div className="absolute -top-12 -left-6 w-24 rounded-md bg-black py-2 text-xs text-white opacity-0 transition-all duration-200 group-hover:opacity-100 before:absolute before:top-full before:left-10 before:border-8 before:border-x-transparent before:border-t-black before:border-b-transparent">
                     Add To Cart
                   </div>
-                  <Button className="flex items-center gap-2 rounded-full border-2 border-transparent bg-black px-4 py-5 text-white shadow-md transition-all duration-200">
+                  <Button
+                    onClick={() => handleAddToCart(item)}
+                    className="flex items-center gap-2 rounded-full border-2 border-transparent bg-black px-4 py-5 text-white shadow-md transition-all duration-200"
+                  >
                     <ShoppingBag size={16} className="" />
                   </Button>
                 </div>
 
                 {/* Wishlist Button */}
                 <div className="group relative">
-                  <div className="absolute -top-12 -left-6 w-24 rounded-md bg-black  py-2 text-xs text-white opacity-0 transition-all duration-200 group-hover:opacity-100 before:absolute before:top-full before:left-10 before:border-8 before:border-x-transparent before:border-t-black before:border-b-transparent">
+                  <div className="absolute -top-12 -left-6 w-24 rounded-md bg-black py-2 text-xs text-white opacity-0 transition-all duration-200 group-hover:opacity-100 before:absolute before:top-full before:left-10 before:border-8 before:border-x-transparent before:border-t-black before:border-b-transparent">
                     Add To Wishlist
                   </div>
 
@@ -89,6 +106,9 @@ const HeroProducts = () => {
           See More...
         </Button>
       </div>
+
+
+      <CartSidebar isOpen={cartOpen} closeCart={() => setCartOpen(false)} cartItems={cartItems}   setCartItems={setCartItems} />
     </div>
   );
 };
