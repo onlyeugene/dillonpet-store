@@ -20,7 +20,7 @@ const MenuIcons = () => {
       <div className="relative">
         <TransitionLink
           className="bg-transparent hover:bg-transparent border-none shadow-none"
-          href="/favorites"
+          href="/cart"
           label="Cart"
           icon={<ShoppingBag size={18} />}
         />

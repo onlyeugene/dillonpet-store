@@ -1,9 +1,10 @@
 // import { CountdownTimer } from "@/components/countdown-timer";
+import BackToTop from "@/components/back-to-top";
 import HeroDetails from "@/components/hero-details";
 import Hero from "@/components/hero-first";
 import HeroProducts from "@/components/hero-products";
-import HeroServices from "@/components/hero-services";
-// import Services from "@/components/services";
+// import HeroServices from "@/components/hero-services";
+import Services from "@/components/services";
 import SpecialOffers from "@/components/special-offers";
 import TestimonialCarousel from "@/components/testimonials";
 
@@ -17,10 +18,11 @@ const HomePage = () => {
         </div>
       </div>
       <HeroProducts />
-      <HeroServices />
+      <Services />
       <TestimonialCarousel />
       {/* <CountdownTimer endDate='' /> */}
       <SpecialOffers />
+      <BackToTop />
     </section>
   );
 };

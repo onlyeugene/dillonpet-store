@@ -80,8 +80,9 @@ const Hero = () => {
 
   return (
     <main
-      className="relative overflow-hidden bg-gradient-to-tr from-[#FFC107] to-[#FF9800] bg-cover bg-bottom bg-no-repeat"
+      className="relative overflow-hidden bg-gradient-to-tr from-[#FFC107] to-[#FF9800] bg-cover bg-bottom bg-no-repeat md:py-0 py-20"
       style={{ backgroundImage: "url('/landing/wave.svg')" }}
+      id="navbar"
     >
       <Container>
         <div className="flex md:flex-row flex-col md:min-h-[700px] min-h-[500px] items-center md:text-start text-center md:justify-between justify-center"

@@ -29,7 +29,7 @@ export default function RootLayout({
         {/* <Template> */}
         <AOSInitializer />
         <Navigation />
-        <main className="md:py-[9.5rem] py-[2rem]">{children}</main>
+        <main className="md:py-0 ">{children}</main>
         <Footer />
         {/* </Template> */}
       </body>

@@ -12,12 +12,11 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 10);
     };
+
+    // Check scroll position on initial render
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -25,10 +24,8 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`fixed w-full  border-gray-300 z-20 transition-all duration-300 ease-in-out ${
-        isScrolled ? "bg-white shadow-md text-black border-b" :
-        //  "bg-gradient-to-br from-[#FFC107] to-[#FF] text-white"
-        "bg-[#FFC107]"
+      className={`fixed w-full border-gray-300 z-20 transition-all duration-300 ease-in-out ${
+        isScrolled ? "bg-white shadow-md text-black border-b" : "bg-transparent"
       }`}
     >
       <Container className="flex flex-col items-center">
