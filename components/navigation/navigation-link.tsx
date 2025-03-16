@@ -34,7 +34,7 @@ const Navigation = () => {
           <Search />
           <MenuIcons />
         </div>
-        <div className="py-5">
+        <div className="md:py-5 py-0">
           <UserMenu />
         </div>
       </Container>

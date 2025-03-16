@@ -64,14 +64,14 @@ const RegisterForm = () => {
     <CardWrapper
       headerLabel="Get Started Now"
       backButtonLabel="Already have an account"
-      backButtonHref="/auth/login"
+      backButtonHref="/login"
     >
       <Form {...form}>
         <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="space-y-6 w-full  px-4"
+          className="space-y-6 w-full my-20"
         >
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex flex-col justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -90,7 +90,7 @@ const RegisterForm = () => {
                           disabled={isLoading}
                         />
                       </FormControl>
-                      <FormMessage className="text-xs mt-1" />
+                      <FormMessage className="text-xs mt-1 text-start" />
                     </FormItem>
                   )}
                 />
@@ -111,7 +111,7 @@ const RegisterForm = () => {
                           disabled={isLoading}
                         />
                       </FormControl>
-                      <FormMessage className="text-xs mt-1" />
+                      <FormMessage className="text-xs mt-1 text-start" />
                     </FormItem>
                   )}
                 />
@@ -134,7 +134,7 @@ const RegisterForm = () => {
                         disabled={isLoading}
                       />
                     </FormControl>
-                    <FormMessage className="text-xs mt-1" />
+                    <FormMessage className="text-xs mt-1 text-start" />
                   </FormItem>
                 )}
               />
@@ -165,7 +165,7 @@ const RegisterForm = () => {
                         </button>
                       </div>
                     </FormControl>
-                    <FormMessage className="text-xs mt-1" />
+                    <FormMessage className="text-xs mt-1 text-start" />
                   </FormItem>
                 )}
               />
@@ -174,7 +174,7 @@ const RegisterForm = () => {
             <motion.div variants={itemVariants} className="!mt-8">
               <Button 
                 type="submit" 
-                className="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-md transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] h-12"
+                className={`w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-md transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] h-12 ${isLoading ? 'cursor-not-allowed': 'cursor-pointer'}`}
                 disabled={isLoading}
               >
                 {isLoading ? (
