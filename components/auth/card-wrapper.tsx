@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import image from "@/public/landing/dog-group.jpg";
-import image2 from '@/public/landing/pet.jpg'
+import image2 from "@/public/landing/pet.jpg";
 import { usePathname } from "next/navigation";
 import Container from "../container";
 
@@ -27,7 +27,9 @@ const CardWrapper = ({
   return (
     <Card className="flex items-center justify-center border-none pt-20 pb-10 shadow-none md:pt-60 lg:pt-50">
       <Container>
-        <CardContent className={` ${path === '/register' ? 'flex md:flex-row flex-col ': 'flex md:flex-row-reverse flex-col'} w-full overflow-hidden rounded-xl border border-gray-100 p-0 shadow-lg `}>
+        <CardContent
+          className={` ${path === "/register" ? "flex flex-col md:flex-row" : "flex flex-col md:flex-row-reverse"} w-full overflow-hidden rounded-xl border border-gray-100 p-0 shadow-lg`}
+        >
           {/* Image Side */}
           <motion.div
             className="relative w-full overflow-hidden md:w-1/2"
@@ -69,7 +71,7 @@ const CardWrapper = ({
                       </p>
                     </div>
                   ) : (
-                    <div className="text-end text-white text-2xl font-bold">
+                    <div className="text-end text-2xl font-bold text-white">
                       <h2>Welcome Back</h2>
                       <h1>Take a dive back into getting your own Dog.</h1>
                     </div>
