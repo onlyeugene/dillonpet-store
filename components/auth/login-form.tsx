@@ -181,12 +181,16 @@ const LoginForm = () => {
                   </FormItem>
                 )}
               />
+
+              <div className="text-start pt-5">
+                <p>Forgot Password ?</p>
+              </div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="!mt-8">
+            <motion.div variants={itemVariants} className="!mt-3">
               <Button
                 type="submit"
-                className={`h-12 w-full transform rounded-md bg-pink-600 py-3 text-white transition-all duration-300 hover:scale-[1.02] hover:bg-pink-700 active:scale-[0.98] ${isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
+                className={`h-12 w-full transform rounded-md bg-yellow-400 py-3 text-white transition-all duration-300 hover:scale-[1.02] hover:bg-yellow-300 active:scale-[0.98] ${isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
                 disabled={isLoading}
               >
                 {isLoading ? (
