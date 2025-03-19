@@ -89,7 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt", // Use JWT for session management
   },
-  pages: {
-    signIn: "/login", // Custom sign-in page (adjust as needed)
-  },
+  // pages: {
+  //   signIn: "/login", // Custom sign-in page (adjust as needed)
+  // },
 });
