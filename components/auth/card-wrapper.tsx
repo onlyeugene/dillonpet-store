@@ -15,6 +15,7 @@ interface CardWrapperProps {
   headerLabel: string;
   backButtonLabel: string;
   backButtonHref: string;
+  title: string;
 }
 
 const CardWrapper = ({
@@ -22,6 +23,7 @@ const CardWrapper = ({
   headerLabel,
   backButtonLabel,
   backButtonHref,
+  title
 }: CardWrapperProps) => {
   const path = usePathname();
   return (
@@ -98,7 +100,7 @@ const CardWrapper = ({
               <BackButton
                 href={backButtonHref}
                 label={backButtonLabel}
-                title=""
+                title={title}
               />
             </CardFooter>
           </motion.div>

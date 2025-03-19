@@ -5,6 +5,11 @@ import Footer from "@/components/footer";
 // import Template from "./template";
 import localFont from "next/font/local";
 import AOSInitializer from "@/components/animation";
+import AuthProvider from "@/providers/sessionprovider";
+import ToastProvider from "@/providers/toastprovider";
+// import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Dillon Pet Kennel & Store",
@@ -18,20 +23,30 @@ const alpino = localFont({
   variable: "--font-alpino",
 });
 
-export default function RootLayout({
+// const queryClient = new QueryClient();
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={`${alpino.className}`}>
         {/* <Template> */}
         <AOSInitializer />
-        <Navigation />
-        <main className="md:py-0 ">{children}</main>
+        {/* <QueryClientProvider client={queryClient}> */}
+          <AuthProvider session={session}>
+            <Navigation />
+            <ToastProvider />
+            <main className="md:py-0">{children}</main>
+          </AuthProvider>
+        {/* </QueryClientProvider> */}
         <Footer />
-        {/* </Template> */}
+        {/* </Template
+        > */}
       </body>
     </html>
   );
