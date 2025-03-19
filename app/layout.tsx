@@ -37,8 +37,8 @@ export default async function RootLayout({
       <body className={`${alpino.className}`}>
         {/* <Template> */}
         <AOSInitializer />
-        {/* <QueryClientProvider client={queryClient}> */}
           <AuthProvider session={session}>
+        {/* <QueryClientProvider client={queryClient}> */}
             <Navigation />
             <ToastProvider />
             <main className="md:py-0">{children}</main>

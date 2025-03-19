@@ -38,39 +38,44 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof useLoginSchema>) => {
-   try{
+ const onSubmit = async (values: z.infer<typeof useLoginSchema>) => {
+  setIsLoading(true)
+  try {
     setIsLoading(true);
+    setError(null); // Reset error state
 
-    const response = await signIn('credentials' ,{
+    const response = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
-    })
+    });
 
-    if(response?.ok){
-      toast.success(response.ok || 'Login Successful')
-      setSuccess(true)
-      router.replace('/')
+    if (response?.ok) {
+      setSuccess(true);
+      toast.success('Login Successful');
+      router.replace('/');
+    } else {
+      setError(true);
+      toast.error(response?.error || 'Invalid Credentials');
     }
-    else{
-      toast.error(response?.error || 'Invalid Credentials')
-      setError(true)
-      return ;
-    }
-   }catch(error: any){
-    toast.error(error.message)
-    setError(true)
-   } finally{
-    setIsLoading(false)
-   }
+  } catch (error: any) {
+    setError(true);
+    toast.error(error.message || 'Authentication failed');
+  } finally {
+    setIsLoading(false);
+  }
+  //  await new Promise((resolve) => setTimeout(resolve, 1500));
+  // console.log(values);
+  // setIsLoading(false)
+  
+};
 
     // Simulate API call
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
+   
 
     // console.log(values);
     // setIsLoading(false);
-  };
+  // };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

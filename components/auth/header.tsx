@@ -16,7 +16,7 @@ export const Header = ({ label,title}: HeaderProps) => {
   return (
     <div className=" flex flex-col gap-x-4 items-center justify-center">
       <h1 className={`text-black md:text-4xl text-xl ${font.className}`}>{title}</h1>
-      <p className='md:text-base text-sm'>{label}</p>
+      <p className='text-xl md:text-4xl font-bold'>{label}</p>
     </div>
   );
 };

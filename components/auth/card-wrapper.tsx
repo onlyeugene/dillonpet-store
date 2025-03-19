@@ -91,7 +91,7 @@ const CardWrapper = ({
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <CardHeader className="flex items-center justify-center">
-              <Header label={headerLabel} title="Create Account" />
+              <Header label={headerLabel} title='' />
             </CardHeader>
             <CardContent className="flex flex-grow items-center justify-center">
               {children}

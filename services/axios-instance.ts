@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.DILLONPET_BASE_URL, // Ensure the correct env variable
+  baseURL: process.env.NEXT_PUBLIC_DILLONPET_BASE_URL, // Ensure the correct env variable
   headers: {
     "Content-Type": "application/json",
   },
