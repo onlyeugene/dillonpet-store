@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useLoginSchema } from "@/schema/user-schema";
@@ -18,10 +19,16 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [, setError] = useState<boolean | null>(false)
+  const router = useRouter()
+  const [, setSuccess] = useState(false)
 
   const form = useForm<z.infer<typeof useLoginSchema>>({
     resolver: zodResolver(useLoginSchema),
@@ -32,13 +39,37 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof useLoginSchema>) => {
+   try{
     setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const response = await signIn('credentials' ,{
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
 
-    console.log(values);
-    setIsLoading(false);
+    if(response?.ok){
+      toast.success(response.ok || 'Login Successful')
+      setSuccess(true)
+      router.replace('/')
+    }
+    else{
+      toast.error(response?.error || 'Invalid Credentials')
+      setError(true)
+      return ;
+    }
+   }catch(error: any){
+    toast.error(error.message)
+    setError(true)
+   } finally{
+    setIsLoading(false)
+   }
+
+    // Simulate API call
+    // await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // console.log(values);
+    // setIsLoading(false);
   };
 
   const togglePasswordVisibility = () => {
@@ -68,7 +99,8 @@ const LoginForm = () => {
   return (
     <CardWrapper
       headerLabel="Welcome Back"
-      backButtonLabel="Don't have an account yet?"
+      title="Don't have an account yet?"
+      backButtonLabel="Register"
       backButtonHref="/register"
     >
       <Form {...form}>
