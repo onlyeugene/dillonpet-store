@@ -1,63 +1,95 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import instance from "./services/axios-instance";
+import axios from "axios";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import { LOGIN_USER } from "./services/api";
+import { useLoginSchema } from "./schema/user-schema"; // Adjusted import
 
-
-// Extend the default NextAuth types
 declare module "next-auth" {
   interface User {
-    accessToken: string; // Add the accessToken property
+    // id: string;
+    firstName: string;
+    lastName: string;
+    // email: string;
   }
 
   interface Session {
-    user: User; // Ensure session contains the extended User type
+    user: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+    };
   }
 }
 
-
-export const authOptions: NextAuthConfig = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
+    Credentials({
       credentials: {
-        email: { label: "Email", type: "email", required: true },
-        password: { label: "Password", type: "password", required: true },
+        email: {},
+        password: {},
       },
-      async authorize(credentials) {
+      authorize: async (credentials) => {
         try {
-          const { data } = await instance.post(LOGIN_USER, credentials);
+          const url = `${process.env.NEXT_PUBLIC_DILLONPET_BASE_URL}${LOGIN_USER}`;
 
-          if (!data || !data.accessToken) {
-            throw new Error("Invalid credentials");
+          // Validate credentials with schema
+          const { email, password } = await useLoginSchema.parseAsync(credentials);
+
+          // Make API call
+          const response = await axios.post(url, {
+            email,
+            password,
+          });
+
+          // Check if we got valid user data
+          const user = response.data;
+          console.log(user);
+
+          if (!user || !user.data) {
+            // Adjust based on your API response structure
+            throw new Error("Invalid Credentials");
           }
 
-          return data; // API response should contain user details & accessToken
-        } catch (error: unknown) {
-          throw new Error(error instanceof Error ? error.message : "Login failed");
+          // Return user object - make sure it has id, name, email etc. as needed
+          return user.data; // Adjust based on your API response structure
+        } catch (error) {
+          console.error("Authentication error:", error);
+          return null; // NextAuth expects null on failure
         }
       },
     }),
   ],
-
   callbacks: {
+    // JWT callback: Updates the token with user data
     async jwt({ token, user }) {
+      // `user` is available during initial sign-in
       if (user) {
-        token.accessToken = user.accessToken; // Attach accessToken
+        token.id = user.id; // Assuming your API returns an id
+        token.firstName = user.firstName; // Add firstName
+        token.lastName = user.lastName; // Add lastName
+        token.email = user.email; // Add email
+        // Add any other fields your API returns in user.data
       }
       return token;
     },
+
+    // Session callback: Updates the session with data from the token
     async session({ session, token }) {
-      if (typeof token.accessToken === 'string') {
-        session.user.accessToken = token.accessToken; // Attach accessToken
-      }
+      // Attach token data to the session
+      session.user.id = token.id as string;
+      session.user.firstName = token.firstName as string;
+      session.user.lastName = token.lastName as string;
+      session.user.email = token.email as string;
+
       return session;
     },
   },
-
-  session: { strategy: "jwt" }, // ✅ Correct way to set JWT-based sessions
-  secret: process.env.NEXTAUTH_SECRET,
-};
-
-// ✅ Correctly export the auth handler
-export const { auth, handlers } = NextAuth(authOptions);
+  // Optional: Configure session settings
+  session: {
+    strategy: "jwt", // Use JWT for session management
+  },
+  pages: {
+    signIn: "/login", // Custom sign-in page (adjust as needed)
+  },
+});

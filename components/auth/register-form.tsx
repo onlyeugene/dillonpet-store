@@ -39,6 +39,7 @@ const RegisterForm = () => {
       lastName: "",
       email: "",
       password: "",
+      phoneNumber: "",
     },
   });
 
@@ -75,6 +76,7 @@ const RegisterForm = () => {
         lastName: values.lastName,
         email: values.email,
         password: values.password,
+        phoneNumber: values.phoneNumber,
       });
 
       if (response.data) {
@@ -85,7 +87,7 @@ const RegisterForm = () => {
       const errorMessage =
         error?.response?.data?.message || "Registration Failed";
       setError(errorMessage);
-      toast.error("Registration failed");
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -123,6 +125,31 @@ const RegisterForm = () => {
       backButtonHref="/login"
     >
       <Form {...form}>
+        {/* {isRegistered ? (
+          <motion.div variants={itemVariants}>
+            <FormLabel className="text-gray-700">Enter OTP</FormLabel>
+            <FormControl>
+              <Input
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter OTP"
+                className="h-12 transition-all duration-300 focus:ring-2 focus:ring-pink-500"
+                disabled={isVerifying}
+              />
+            </FormControl>
+            <Button
+              onClick={handleOtpSubmit}
+              className="h-12 w-full bg-green-500 text-white"
+              disabled={isVerifying}
+            >
+              {isVerifying ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Verify OTP"
+              )}
+            </Button>
+          </motion.div>
+        ) : ( */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -179,27 +206,52 @@ const RegisterForm = () => {
               </motion.div>
             </div>
 
-            <motion.div variants={itemVariants}>
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-700">Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="johndoe@example.com"
-                        className="h-12 transition-all duration-300 focus:ring-2 focus:ring-pink-500"
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage className="mt-1 text-start text-xs" />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <motion.div variants={itemVariants}>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="johndoe@example.com"
+                          className="h-12 transition-all duration-300 focus:ring-2 focus:ring-pink-500"
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormMessage className="mt-1 text-start text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">
+                        Phone Number
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="text"
+                          placeholder="08012312345"
+                          className="h-12 transition-all duration-300 focus:ring-2 focus:ring-pink-500"
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormMessage className="mt-1 text-start text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+            </div>
 
             <motion.div variants={itemVariants}>
               <FormField
@@ -279,6 +331,7 @@ const RegisterForm = () => {
             </motion.div>
           </form>
         </motion.div>
+        {/* )} */}
       </Form>
     </CardWrapper>
   );

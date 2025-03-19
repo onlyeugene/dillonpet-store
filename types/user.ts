@@ -4,4 +4,5 @@ export interface CreateUser{
     email : string | null;
     password : string;
     role? : string;
+    phoneNumber: number
 }
