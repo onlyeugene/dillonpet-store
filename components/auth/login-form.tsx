@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useLoginSchema } from "@/schema/user-schema";
@@ -26,9 +25,9 @@ import { useRouter } from "next/navigation";
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [, setError] = useState<boolean | null>(false)
-  const router = useRouter()
-  const [, setSuccess] = useState(false)
+  const [, setError] = useState<boolean | null>(false);
+  const router = useRouter();
+  const [, setSuccess] = useState(false);
 
   const form = useForm<z.infer<typeof useLoginSchema>>({
     resolver: zodResolver(useLoginSchema),
@@ -38,44 +37,34 @@ const LoginForm = () => {
     },
   });
 
- const onSubmit = async (values: z.infer<typeof useLoginSchema>) => {
-  setIsLoading(true)
-  try {
+  const onSubmit = async (values: z.infer<typeof useLoginSchema>) => {
     setIsLoading(true);
-    setError(null); // Reset error state
+    try {
+      const result = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false, // We'll handle redirection manually
+      });
 
-    const response = await signIn('credentials', {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+      if (result?.error) {
+        setError(true);
+        toast.error("Invalid credentials. Please try again.");
+        return;
+      }
 
-    if (response?.ok) {
-      setSuccess(true);
-      toast.success('Login Successful');
-      router.replace('/');
-    } else {
+      if (result?.ok) {
+        setSuccess(true);
+        toast.success("Successfully logged in!");
+        router.push("/dashboard"); // Redirect to dashboard or desired page
+      }
+    } catch (error) {
       setError(true);
-      toast.error(response?.error || 'Invalid Credentials');
+      toast.error("An error occurred during login. Please try again.");
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error: any) {
-    setError(true);
-    toast.error(error.message || 'Authentication failed');
-  } finally {
-    setIsLoading(false);
-  }
-  //  await new Promise((resolve) => setTimeout(resolve, 1500));
-  // console.log(values);
-  // setIsLoading(false)
-  
-};
-
-    // Simulate API call
-   
-
-    // console.log(values);
-    // setIsLoading(false);
-  // };
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -119,50 +108,6 @@ const LoginForm = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col justify-center space-y-6"
           >
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <motion.div variants={itemVariants}>
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-700">First Name</FormLabel>
-                      <FormControl>
-                        <Input 
-                          {...field} 
-                          placeholder="John" 
-                          className="h-12 focus:ring-2 focus:ring-pink-500 transition-all duration-300"
-                          disabled={isLoading}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs mt-1 text-start" />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
-
-              <motion.div variants={itemVariants}>
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-700">Last Name</FormLabel>
-                      <FormControl>
-                        <Input 
-                          {...field} 
-                          placeholder="Doe" 
-                          className="h-12 focus:ring-2 focus:ring-pink-500 transition-all duration-300"
-                          disabled={isLoading}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs mt-1 text-start" />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
-            </div> */}
-
             <motion.div variants={itemVariants}>
               <FormField
                 control={form.control}
@@ -205,6 +150,7 @@ const LoginForm = () => {
                           type="button"
                           onClick={togglePasswordVisibility}
                           className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-500 transition-colors hover:text-gray-700"
+                          disabled={isLoading}
                         >
                           {showPassword ? (
                             <EyeOff size={18} />
@@ -218,8 +164,7 @@ const LoginForm = () => {
                   </FormItem>
                 )}
               />
-
-              <div className="text-start pt-5">
+              <div className="pt-5 text-start">
                 <p>Forgot Password ?</p>
               </div>
             </motion.div>

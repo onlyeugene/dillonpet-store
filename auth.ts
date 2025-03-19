@@ -1,106 +1,95 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { LOGIN_USER } from "./services/api";
 import axios from "axios";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { LOGIN_USER } from "./services/api";
+import { useLoginSchema } from "./schema/user-schema"; // Adjusted import
 
 declare module "next-auth" {
   interface User {
-    user: {
-      accessToken: string;
-      id: string;
-      firstName: string;
-      lastName: string;
-      email: string;
-      role: string;
-      phoneNumber: string;
-    };
+    // id: string;
+    firstName: string;
+    lastName: string;
+    // email: string;
   }
 
-  // Override the Session interface completely instead of extending it
   interface Session {
     user: {
       id: string;
       firstName: string;
       lastName: string;
       email: string;
-      phoneNumber: string;
-      role: string;
-      accessToken: string;
     };
   }
 }
 
-export const authOptions: NextAuthConfig = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
+    Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: {},
+        password: {},
       },
-
-      async authorize(credentials) {
+      authorize: async (credentials) => {
         try {
           const url = `${process.env.NEXT_PUBLIC_DILLONPET_BASE_URL}${LOGIN_USER}`;
-          const { data } = await axios.post(url, credentials, {
-            headers: { "Content-Type": "application/json" },
+
+          // Validate credentials with schema
+          const { email, password } = await useLoginSchema.parseAsync(credentials);
+
+          // Make API call
+          const response = await axios.post(url, {
+            email,
+            password,
           });
 
-          if (data?.user) {
-            return {
-              user: {
-                id: data.user.id,
-                firstName: data.user.firstName,
-                lastName: data.user.lastName,
-                email: data.user.email,
-                role: data.user.role,
-                phoneNumber: data.user.phoneNumber,
-                accessToken: data.accessToken,
-              },
-            };
+          // Check if we got valid user data
+          const user = response.data;
+          console.log(user);
+
+          if (!user || !user.data) {
+            // Adjust based on your API response structure
+            throw new Error("Invalid Credentials");
           }
 
-          return null;
+          // Return user object - make sure it has id, name, email etc. as needed
+          return user.data; // Adjust based on your API response structure
         } catch (error) {
-          if (axios.isAxiosError(error)) {
-            throw new Error(error.message);
-          }
-
-          throw new Error("Authentication failed");
+          console.error("Authentication error:", error);
+          return null; // NextAuth expects null on failure
         }
       },
     }),
   ],
-
   callbacks: {
+    // JWT callback: Updates the token with user data
     async jwt({ token, user }) {
+      // `user` is available during initial sign-in
       if (user) {
-        token.user = user.user; // Ensure user structure is correct
+        token.id = user.id; // Assuming your API returns an id
+        token.firstName = user.firstName; // Add firstName
+        token.lastName = user.lastName; // Add lastName
+        token.email = user.email; // Add email
+        // Add any other fields your API returns in user.data
       }
       return token;
     },
 
-    // async session({ session, token }) {
-    //   // Initialize session.user as an empty object if it doesn't exist
-    //   // session.user = session.user || {};
+    // Session callback: Updates the session with data from the token
+    async session({ session, token }) {
+      // Attach token data to the session
+      session.user.id = token.id as string;
+      session.user.firstName = token.firstName as string;
+      session.user.lastName = token.lastName as string;
+      session.user.email = token.email as string;
 
-    //   if (token.user) {
-    //     // Now we can safely assign properties to session.user
-    //     session.user.id = token.user.id;
-    //     session.user.firstName = token.user.firstName;
-    //     session.user.lastName = token.user.lastName;
-    //     session.user.email = token.user.email;
-    //     session.user.phoneNumber = token.user.phoneNumber;
-    //     session.user.role = token.user.role;
-    //     session.user.accessToken = token.user.accessToken;
-    //   }
-    //   return session;
-    // },
+      return session;
+    },
   },
-
-  session: { strategy: "jwt" },
-  secret: process.env.NEXTAUTH_SECRET,
-};
-
-// ✅ Correctly export the auth handler
-export const { auth, handlers } = NextAuth(authOptions);
+  // Optional: Configure session settings
+  session: {
+    strategy: "jwt", // Use JWT for session management
+  },
+  pages: {
+    signIn: "/login", // Custom sign-in page (adjust as needed)
+  },
+});
